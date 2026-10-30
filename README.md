@@ -23,7 +23,7 @@ Python 3.11+ on macOS or Linux (`fcntl` provides local locking):
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -e .
-python examples/synthetic_demo.py
+python examples/evidence_workflow.py
 python -m unittest discover -s tests -v
 ```
 

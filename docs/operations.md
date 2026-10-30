@@ -4,7 +4,7 @@ Install with Python 3.11+ using `pip install -e .`. The package name is
 `health-evidence-engine`; the import namespace and CLI remain `health_bank` and
 `health-bank`.
 
-Run `python examples/synthetic_demo.py` to create a temporary store with example records and print its counts.
+Run `python examples/evidence_workflow.py` to create a temporary store with example records and print its counts.
 
 For a separate local store, `health-bank --root /private/path init` creates local
 storage and an external encryption key. Keep records outside the code checkout. Source evidence can be preserved with `ingest-file`; structured
