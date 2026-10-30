@@ -58,13 +58,10 @@ The [care action ledger implementation](../src/health_bank/actions.py) adds sche
 
 ## Storage and confidentiality
 
-This repository publishes code and synthetic tests only. Working plaintext is
-confined to ignored `.local/`. Optional AES-GCM vault code supports private
-backup workflows with external keys, but no vault objects, manifests, evidence,
-patient records, keys, or original repository history are bundled here. Both
-`.local/` and `vault/` are excluded from this public code repository. Keep any
-real-data deployment and backups in separate private storage. Repository
-visibility and encryption address different exposure paths.
+Working plaintext lives in ignored `.local/` storage. Optional AES-GCM vaults
+support encrypted backups with external keys. Keep real-data deployments,
+backups, vault manifests, and keys in separate private storage. Repository
+visibility and encryption protect different exposure paths.
 
 ## Extensibility
 
