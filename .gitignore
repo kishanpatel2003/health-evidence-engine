@@ -1,0 +1,20 @@
+.local/
+vault/
+*.key
+.env
+.env.*
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+.pytest_cache/
+dist/
+build/
+.DS_Store
+# Source evidence, patient exports and raw attachment packages stay outside Git.
+*.pdf
+*.xml
+*.zip
+*.aesgcm
+*.sqlite
+*.db

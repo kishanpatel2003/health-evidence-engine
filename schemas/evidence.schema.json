@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:health-bank:evidence:1",
+  "title": "Health Bank evidence link",
+  "description": "Distinct provenance for a canonical assertion. Repeated captures of the same assertion in different artifacts add evidence links.",
+  "type": "object",
+  "required": ["schema_version", "record_id", "source", "captured_at"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "record_id": {"type": "string", "pattern": "^rec_[0-9a-f]{64}$"},
+    "source": {
+      "type": "object",
+      "required": ["system", "artifact_sha256", "locator", "record_key"],
+      "properties": {
+        "system": {"type": "string", "minLength": 1},
+        "artifact_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "locator": {"type": ["string", "object", "null"]},
+        "record_key": {"type": ["string", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "captured_at": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": true
+}

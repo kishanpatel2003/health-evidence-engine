@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:health-bank:record:1",
+  "title": "Persisted Health Bank record",
+  "description": "A source assertion or explicitly identified interpretation. Ingest inputs may omit fields that the store supplies; this schema describes the persisted envelope.",
+  "type": "object",
+  "required": ["schema_version", "record_id", "patient_id", "lane", "kind", "source", "effective_time", "status", "data", "captured_at"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "record_id": {"type": "string", "pattern": "^rec_[0-9a-f]{64}$", "description": "SHA-256 identity of canonical assertion content, prefixed rec_."},
+    "patient_id": {"type": "string", "minLength": 1, "description": "Local opaque patient identifier; not a patient name."},
+    "lane": {"type": "string", "pattern": "^(?!evidence$)[a-z][a-z0-9_-]*$", "description": "Stable lane identifier. See lanes.json; extensions are allowed."},
+    "kind": {"type": "string", "minLength": 1, "description": "Extractor-specific assertion type within the lane."},
+    "source": {"$ref": "#/$defs/source"},
+    "effective_time": {"$ref": "#/$defs/effective_time"},
+    "status": {"type": "string", "description": "Unmodified source status when present; unknown when absent. Coverage status is separate."},
+    "data": {"description": "Lossless JSON data, including narrative and original values. Any valid JSON type is permitted; object data is preferred for structured assertions."},
+    "captured_at": {"type": "string", "format": "date-time", "description": "Time first persisted, not the clinical time. Additional provenance is retained in evidence.jsonl."}
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "source": {
+      "type": "object",
+      "required": ["system", "artifact_sha256", "locator", "record_key"],
+      "properties": {
+        "system": {"type": "string", "minLength": 1, "description": "Source namespace such as the organization/portal/export origin."},
+        "artifact_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$", "description": "Hash of preserved artifact bytes; null declares a provenance gap."},
+        "locator": {"type": ["string", "object", "null"], "description": "Precise XPath, page/section, message/item identifier, byte location or structured location. Null declares a provenance gap."},
+        "record_key": {"type": ["string", "null"], "description": "Stable source item identifier used to relate revisions; null when unavailable."}
+      },
+      "additionalProperties": true
+    },
+    "effective_time": {
+      "type": ["object", "null"],
+      "description": "Clinical or administrative applicability time. Partial and unparsed dates must not acquire false precision.",
+      "properties": {
+        "start": {"type": ["string", "null"], "description": "Source-preserving start value, potentially a partial date."},
+        "end": {"type": ["string", "null"], "description": "Source-preserving end value when an interval is known."},
+        "precision": {"type": ["string", "null"], "description": "For example year, month, day, minute, second, interval or unknown; not restricted to these labels."},
+        "original": {"type": ["string", "object", "null"], "description": "Original source timestamp text or structured time representation."}
+      },
+      "additionalProperties": true
+    }
+  }
+}
